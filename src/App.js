@@ -13,8 +13,9 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      profile: {
+      userInput: {
         name: '',
+        artistName: '',
       },
       isLoading: false,
       isLoggedIn: false,
@@ -24,7 +25,7 @@ class App extends React.Component {
   handleInputChange = ({ target }) => {
     const { name, value } = target;
     this.setState({
-      profile: {
+      userInput: {
         [name]: value,
       },
     });
@@ -50,10 +51,9 @@ class App extends React.Component {
   }
 
   render() {
-    const { profile, isLoading, isLoggedIn } = this.state;
+    const { userInput, isLoading, isLoggedIn } = this.state;
     return (
       <div>
-        <h1>Trybe Tunes</h1>
         <Switch>
           <Route
             exact
@@ -63,12 +63,20 @@ class App extends React.Component {
               onInputChange={ this.handleInputChange }
               onSubmit={ this.handleSubmit }
               onClickBtn={ this.handleLogin }
-              profile={ profile }
+              userInput={ userInput }
               isLoading={ isLoading }
               isLoggedIn={ isLoggedIn }
             />) }
           />
-          <Route path="/search" component={ Search } />
+          <Route
+            path="/search"
+            render={ (routeProps) => (<Search
+              { ...routeProps }
+              onInputChange={ this.handleInputChange }
+              onSubmit={ this.handleSubmit }
+              userInput={ userInput }
+            />) }
+          />
           <Route path="/album/:id" component={ Album } />
           <Route path="/favorites" component={ Favorites } />
           <Route exact path="/profile" component={ Profile } />

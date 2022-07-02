@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 export default function InputLogin(props) {
   const MIN_NAME_LENGTH = 3;
-  const { onInputChange, onClickBtn, onSubmit, profile: { name } } = props;
+  const { onInputChange, onClickBtn, onSubmit, userInput: { name } } = props;
   return (
     <div>
       <form onSubmit={ onSubmit }>
@@ -40,7 +40,7 @@ InputLogin.propTypes = {
   onInputChange: PropTypes.func.isRequired,
   onClickBtn: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
-  profile: PropTypes.shape({
+  userInput: PropTypes.shape({
     name: PropTypes.string.isRequired,
   }).isRequired,
 };
