@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import InputLogin from '../components/InputLogin';
 import Loading from '../components/Loading';
 
@@ -20,3 +21,8 @@ class Login extends Component {
 }
 
 export default Login;
+
+Login.propTypes = {
+  isLoading: PropTypes.bool.isRequired,
+  isLoggedIn: PropTypes.bool.isRequired,
+};

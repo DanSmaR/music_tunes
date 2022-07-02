@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 export default function InputLogin(props) {
   const MIN_NAME_LENGTH = 3;
@@ -34,3 +35,12 @@ export default function InputLogin(props) {
     </div>
   );
 }
+
+InputLogin.propTypes = {
+  onInputChange: PropTypes.func.isRequired,
+  onClickBtn: PropTypes.func.isRequired,
+  onSubmit: PropTypes.func.isRequired,
+  profile: PropTypes.shape({
+    name: PropTypes.string.isRequired,
+  }).isRequired,
+};
