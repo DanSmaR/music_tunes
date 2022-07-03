@@ -13,10 +13,8 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      userInput: {
-        name: '',
-        artistName: '',
-      },
+      userName: '',
+      artistName: '',
       isLoading: false,
       isLoggedIn: false,
     };
@@ -25,9 +23,7 @@ class App extends React.Component {
   handleInputChange = ({ target }) => {
     const { name, value } = target;
     this.setState({
-      userInput: {
-        [name]: value,
-      },
+      [name]: value,
     });
   }
 
@@ -36,7 +32,10 @@ class App extends React.Component {
   }
 
   handleLogin = () => {
-    const { profile } = this.state;
+    const { userName } = this.state;
+    const profile = {
+      name: userName,
+    };
     this.setState({
       isLoading: true,
     }, () => {
@@ -51,7 +50,7 @@ class App extends React.Component {
   }
 
   render() {
-    const { userInput, isLoading, isLoggedIn } = this.state;
+    const { userName, artistName, isLoading, isLoggedIn } = this.state;
     return (
       <div>
         <Switch>
@@ -63,7 +62,7 @@ class App extends React.Component {
               onInputChange={ this.handleInputChange }
               onSubmit={ this.handleSubmit }
               onClickBtn={ this.handleLogin }
-              userInput={ userInput }
+              userName={ userName }
               isLoading={ isLoading }
               isLoggedIn={ isLoggedIn }
             />) }
@@ -74,7 +73,7 @@ class App extends React.Component {
               { ...routeProps }
               onInputChange={ this.handleInputChange }
               onSubmit={ this.handleSubmit }
-              userInput={ userInput }
+              artistName={ artistName }
             />) }
           />
           <Route path="/album/:id" component={ Album } />

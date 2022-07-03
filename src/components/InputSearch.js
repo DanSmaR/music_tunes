@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 export default class InputSearch extends Component {
   render() {
-    const { onInputChange, onSubmit, userInput: { artistName } } = this.props;
+    const { onInputChange, onSubmit, artistName } = this.props;
     const MIN_NAME_LENGTH = 2;
     return (
       <form onSubmit={ onSubmit }>
@@ -29,3 +30,9 @@ export default class InputSearch extends Component {
     );
   }
 }
+
+InputSearch.propTypes = {
+  onInputChange: PropTypes.func.isRequired,
+  onSubmit: PropTypes.func.isRequired,
+  artistName: PropTypes.string.isRequired,
+};
