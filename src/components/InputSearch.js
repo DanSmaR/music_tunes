@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 export default class InputSearch extends Component {
   render() {
-    const { onInputChange, onSubmit, artistName } = this.props;
+    const { onInputChange, onSubmit, artistName, onAlbumSearch } = this.props;
     const MIN_NAME_LENGTH = 2;
     return (
       <form onSubmit={ onSubmit }>
@@ -22,6 +22,7 @@ export default class InputSearch extends Component {
             type="submit"
             data-testid="search-artist-button"
             disabled={ artistName.length < MIN_NAME_LENGTH }
+            onClick={ onAlbumSearch }
           >
             Procurar
           </button>
@@ -35,4 +36,5 @@ InputSearch.propTypes = {
   onInputChange: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
   artistName: PropTypes.string.isRequired,
+  onAlbumSearch: PropTypes.func.isRequired,
 };
