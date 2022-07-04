@@ -1,7 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+
 export default function MusicCard(props) {
-  const { tracks, onFavoriteAddSong } = props;
+  const { tracks, onFavoriteAddSong, favoriteSongsId } = props;
   return (
     <div>
       {
@@ -21,8 +22,10 @@ export default function MusicCard(props) {
                   <input
                     data-testid={ `checkbox-music-${track.trackId}` }
                     type="checkbox"
-                    name=""
+                    name={ track.trackName }
                     id={ track.trackId }
+                    readOnly={ favoriteSongsId.find((id) => id === track.trackId) }
+                    checked={ favoriteSongsId.find((id) => id === track.trackId) }
                     onClick={ onFavoriteAddSong.bind(this, track) }
                   />
                   Favorita
@@ -37,4 +40,6 @@ export default function MusicCard(props) {
 
 MusicCard.propTypes = {
   tracks: PropTypes.arrayOf(PropTypes.object).isRequired,
+  onFavoriteAddSong: PropTypes.func.isRequired,
+  favoriteSongsId: PropTypes.arrayOf(PropTypes.number).isRequired,
 };

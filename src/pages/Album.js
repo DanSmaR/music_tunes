@@ -53,7 +53,6 @@ class Album extends Component {
   }
 
   handleFavoriteSong = (track) => {
-    console.log(track);
     if (this.isSongSavedLocalStorage(track)) {
       console.log('Já está nas favoritas');
       return;
