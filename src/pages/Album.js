@@ -43,6 +43,9 @@ class Album extends Component {
     });
   }
 
+  getListOfSongsId = (favSongs) => favSongs
+    .map((song) => song.trackId);
+
   updateFavoriteSongIdListState = (songsId) => {
     this.setState({
       favoriteSongIdList: songsId,
@@ -51,7 +54,7 @@ class Album extends Component {
   }
 
   getFavoriteIdSongsFromLocalStorage = () => getFavoriteSongs()
-    .then((favSongs) => favSongs.map((song) => song.trackId))
+    .then(this.getListOfSongsId)
     .then(this.updateFavoriteSongIdListState);
 
   // getFavoriteIdSongsFromLocalStorage() ends here
@@ -63,7 +66,7 @@ class Album extends Component {
       removeSong(track)
         .then(() => {
           getFavoriteSongs()
-            .then((favSongs) => favSongs.map((song) => song.trackId))
+            .then(this.getListOfSongsId)
             .then(this.updateFavoriteSongIdListState);
         });
     });
