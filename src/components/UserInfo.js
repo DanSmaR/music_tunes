@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 export default function UserInfo(props) {
   const { description, email, image, name } = props;
@@ -26,3 +27,16 @@ export default function UserInfo(props) {
     </article>
   );
 }
+
+UserInfo.propTypes = {
+  description: PropTypes.string,
+  email: PropTypes.string,
+  image: PropTypes.string,
+  name: PropTypes.string.isRequired,
+};
+
+UserInfo.defaultProps = {
+  description: 'Descrição sobre o usuário',
+  email: 'usuario@email.com',
+  image: '',
+};
