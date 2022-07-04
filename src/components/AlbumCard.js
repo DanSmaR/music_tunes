@@ -18,7 +18,11 @@ export default function AlbumCard(props) {
 }
 
 AlbumCard.propTypes = {
-  albumCover: PropTypes.string.isRequired,
+  albumCover: PropTypes.string,
   AlbumName: PropTypes.string.isRequired,
   artistName: PropTypes.string.isRequired,
+};
+
+AlbumCard.defaultProps = {
+  albumCover: '',
 };
