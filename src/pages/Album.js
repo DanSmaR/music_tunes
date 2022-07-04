@@ -43,38 +43,14 @@ class Album extends Component {
     });
   }
 
-  getListOfSongsId = (favSongs) => favSongs
-    .map((song) => song.trackId);
-
-  updateFavoriteSongIdListState = (songsId) => {
-    this.setState({
-      favoriteSongIdList: songsId,
-      isLoading: false,
-    });
+  getListOfSongsId(favSongs) {
+    return favSongs.map((song) => song.trackId);
   }
 
-  getFavoriteIdSongsFromLocalStorage = () => getFavoriteSongs()
-    .then(this.getListOfSongsId)
-    .then(this.updateFavoriteSongIdListState);
-
-  // getFavoriteIdSongsFromLocalStorage() ends here
-
-  removeFavoriteSong= (track) => {
-    this.setState({
-      isLoading: true,
-    }, () => {
-      removeSong(track)
-        .then(() => {
-          getFavoriteSongs()
-            .then(this.getListOfSongsId)
-            .then(this.updateFavoriteSongIdListState);
-        });
-    });
-  }
-
-  isSongSavedLocalStorage = (track) => {
-    const { favoriteSongIdList } = this.state;
-    return favoriteSongIdList.find((song) => song === track.trackId);
+  getFavoriteIdSongsFromLocalStorage() {
+    return getFavoriteSongs()
+      .then(this.getListOfSongsId)
+      .then(this.updateFavoriteSongIdListState.bind(this));
   }
 
   handleFavoriteSong = (track) => {
@@ -93,6 +69,31 @@ class Album extends Component {
             isLoading: false,
             favoriteSongIdList,
           });
+        });
+    });
+  }
+
+  updateFavoriteSongIdListState(songsId) {
+    this.setState({
+      favoriteSongIdList: songsId,
+      isLoading: false,
+    });
+  }
+
+  isSongSavedLocalStorage(track) {
+    const { favoriteSongIdList } = this.state;
+    return favoriteSongIdList.find((song) => song === track.trackId);
+  }
+
+  removeFavoriteSong(track) {
+    this.setState({
+      isLoading: true,
+    }, () => {
+      removeSong(track)
+        .then(() => {
+          getFavoriteSongs()
+            .then(this.getListOfSongsId)
+            .then(this.updateFavoriteSongIdListState.bind(this));
         });
     });
   }
@@ -120,7 +121,7 @@ class Album extends Component {
                     <section>
                       <MusicCard
                         tracks={ musics }
-                        onFavoriteAddSong={ this.handleFavoriteSong }
+                        onFavoriteSongChange={ this.handleFavoriteSong }
                         favoriteSongsId={ favoriteSongIdList }
                       />
                     </section>
