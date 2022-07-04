@@ -11,8 +11,8 @@ export default function AlbumCard(props) {
         width="300px"
         height="250px"
       />
-      <h3>{ AlbumName }</h3>
-      <p>{ artistName }</p>
+      <h3 data-testid="album-name">{ AlbumName }</h3>
+      <p data-testid="artist-name">{ artistName }</p>
     </article>
   );
 }
