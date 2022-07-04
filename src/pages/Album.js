@@ -5,7 +5,7 @@ import Header from '../components/Header';
 import Loading from '../components/Loading';
 import MusicCard from '../components/MusicCard';
 import getMusics from '../services/musicsAPI';
-import { addSong, readFavoriteSongs } from '../services/favoriteSongsAPI';
+import { addSong, getFavoriteSongs } from '../services/favoriteSongsAPI';
 
 class Album extends Component {
   constructor(props) {
@@ -28,9 +28,10 @@ class Album extends Component {
         .then((musics) => {
           this.setState({
             musics,
-            isLoading: false,
-            favoriteSongIdList: this.getFavoriteIdSongsFromLocalStorage(),
           });
+        })
+        .then(() => {
+          this.getFavoriteIdSongsFromLocalStorage();
         })
         .catch((err) => {
           console.log(err);
@@ -42,14 +43,18 @@ class Album extends Component {
     });
   }
 
-  getFavoriteIdSongsFromLocalStorage = () => {
-    const savedSongs = readFavoriteSongs();
-    return savedSongs.map((song) => song.trackId);
-  }
+  getFavoriteIdSongsFromLocalStorage = () => getFavoriteSongs()
+    .then((favSongs) => favSongs.map((song) => song.trackId))
+    .then((songsId) => {
+      this.setState({
+        favoriteSongIdList: songsId,
+        isLoading: false,
+      });
+    })
 
   isSongSavedLocalStorage = (track) => {
-    const savedSongs = readFavoriteSongs();
-    return savedSongs.find((song) => song.trackId === track.trackId);
+    const { favoriteSongIdList } = this.state;
+    return favoriteSongIdList.find((song) => song === track.trackId);
   }
 
   handleFavoriteSong = (track) => {

@@ -34,7 +34,6 @@ class App extends React.Component {
     }, () => {
       searchAlbumsAPI(artistName)
         .then((albums) => {
-          console.log(albums);
           this.setState({
             albums,
             isLoading: false,
