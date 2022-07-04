@@ -5,6 +5,7 @@ import Header from '../components/Header';
 import Loading from '../components/Loading';
 import MusicCard from '../components/MusicCard';
 import getMusics from '../services/musicsAPI';
+import { addSong, readFavoriteSongs } from '../services/favoriteSongsAPI';
 
 class Album extends Component {
   constructor(props) {
@@ -39,6 +40,29 @@ class Album extends Component {
     });
   }
 
+  isSongSavedLocalStorage = (track) => {
+    const savedSongs = readFavoriteSongs();
+    return savedSongs.find((song) => song.trackId === track.trackId);
+  }
+
+  handleFavoriteSong = (track) => {
+    console.log(track);
+    if (this.isSongSavedLocalStorage(track)) {
+      console.log('Já está nas favoritas');
+      return;
+    }
+    this.setState({
+      isLoading: true,
+    }, () => {
+      addSong(track)
+        .then(() => {
+          this.setState({
+            isLoading: false,
+          });
+        });
+    });
+  }
+
   render() {
     const { isLoading, musics, error } = this.state;
     console.log(musics);
@@ -61,7 +85,10 @@ class Album extends Component {
                       />
                     </section>
                     <section>
-                      <MusicCard tracks={ musics } />
+                      <MusicCard
+                        tracks={ musics }
+                        onFavoriteAddSong={ this.handleFavoriteSong }
+                      />
                     </section>
                   </main>
                 )
