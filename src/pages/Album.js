@@ -12,6 +12,7 @@ class Album extends Component {
     super(props);
     this.state = {
       musics: [],
+      favoriteSongIdList: [],
       isLoading: true,
       error: '',
     };
@@ -28,6 +29,7 @@ class Album extends Component {
           this.setState({
             musics,
             isLoading: false,
+            favoriteSongIdList: this.getFavoriteIdSongsFromLocalStorage(),
           });
         })
         .catch((err) => {
@@ -38,6 +40,11 @@ class Album extends Component {
           });
         });
     });
+  }
+
+  getFavoriteIdSongsFromLocalStorage = () => {
+    const savedSongs = readFavoriteSongs();
+    return savedSongs.map((song) => song.trackId);
   }
 
   isSongSavedLocalStorage = (track) => {
@@ -51,6 +58,8 @@ class Album extends Component {
       console.log('Já está nas favoritas');
       return;
     }
+    const { favoriteSongIdList } = this.state;
+    favoriteSongIdList.push(track.trackId);
     this.setState({
       isLoading: true,
     }, () => {
@@ -58,14 +67,14 @@ class Album extends Component {
         .then(() => {
           this.setState({
             isLoading: false,
+            favoriteSongIdList,
           });
         });
     });
   }
 
   render() {
-    const { isLoading, musics, error } = this.state;
-    console.log(musics);
+    const { isLoading, musics, error, favoriteSongIdList } = this.state;
     return (
       <div>
         <Header />
@@ -88,6 +97,7 @@ class Album extends Component {
                       <MusicCard
                         tracks={ musics }
                         onFavoriteAddSong={ this.handleFavoriteSong }
+                        favoriteSongsId={ favoriteSongIdList }
                       />
                     </section>
                   </main>
