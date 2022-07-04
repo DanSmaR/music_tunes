@@ -2,12 +2,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 export default function MusicCard(props) {
-  const { tracks, onFavoriteAddSong, favoriteSongsId } = props;
+  const { tracks, onFavoriteSongChange, favoriteSongsId } = props;
   return (
     <div>
       {
         tracks
-          .filter((_, index) => index !== 0)
+          .filter((track) => track.wrapperType !== 'collection')
           .map((track) => (
             <article key={ track.trackId }>
               <span>{ track.trackName }</span>
@@ -26,7 +26,7 @@ export default function MusicCard(props) {
                     id={ track.trackId }
                     readOnly={ favoriteSongsId.find((id) => id === track.trackId) }
                     checked={ favoriteSongsId.find((id) => id === track.trackId) }
-                    onClick={ onFavoriteAddSong.bind(this, track) }
+                    onClick={ onFavoriteSongChange.bind(this, track) }
                   />
                   Favorita
                 </label>
@@ -40,6 +40,6 @@ export default function MusicCard(props) {
 
 MusicCard.propTypes = {
   tracks: PropTypes.arrayOf(PropTypes.object).isRequired,
-  onFavoriteAddSong: PropTypes.func.isRequired,
+  onFavoriteSongChange: PropTypes.func.isRequired,
   favoriteSongsId: PropTypes.arrayOf(PropTypes.number).isRequired,
 };
