@@ -7,7 +7,15 @@ export default function MusicCard(props) {
     <div>
       {
         tracks
-          .filter((track) => track.wrapperType !== 'collection')
+          .filter((track, index) => {
+            if (track.wrapperType) {
+              return track.wrapperType !== 'collection';
+            }
+            if (track.collectionName) {
+              return index !== 0;
+            }
+            return true;
+          })
           .map((track) => (
             <article key={ track.trackId }>
               <span>{ track.trackName }</span>
@@ -41,5 +49,8 @@ export default function MusicCard(props) {
 MusicCard.propTypes = {
   tracks: PropTypes.arrayOf(PropTypes.object).isRequired,
   onFavoriteSongChange: PropTypes.func.isRequired,
-  favoriteSongsId: PropTypes.arrayOf(PropTypes.number).isRequired,
+  favoriteSongsId: PropTypes.arrayOf(PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.number,
+  ])).isRequired,
 };

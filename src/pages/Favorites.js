@@ -17,7 +17,7 @@ export default class Favorites extends Component {
     this.setFavoriteSongs();
   }
 
-  setFavoriteSongs() {
+  setFavoriteSongs = () => {
     getFavoriteSongs()
       .then((songs) => {
         this.setState({
